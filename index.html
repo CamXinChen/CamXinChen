@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xin Chen — Electron Microscopy &amp; Machine Learning</title>
+<meta name="description" content="Xin Chen — PhD candidate, University of Cambridge. Electron microscopy and machine learning for optoelectronic semiconductors and devices.">
+<style>
+  :root{
+    --cream:#faf5ea;
+    --cream-2:#f4ecd9;
+    --card:#fffdf8;
+    --ink:#2b2622;
+    --muted:#6f665c;
+    --line:#e4d9c2;
+    --accent:#8a1425;        /* Cambridge dark red */
+    --accent-soft:#a8323f;
+    --accent-wash:#f3e3e3;
+    --maxw:940px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:Georgia,"Times New Roman",serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  /* ---------- fixed section nav ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    background:rgba(250,245,234,0.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .navwrap{
+    max-width:var(--maxw);margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 24px;
+  }
+  nav .brand{font-weight:bold;letter-spacing:.5px;color:var(--accent);font-size:1.05rem;}
+  nav ul{display:flex;gap:20px;list-style:none;margin:0;padding:0;flex-wrap:wrap;}
+  nav ul a{
+    color:var(--muted);font-family:-apple-system,Helvetica,Arial,sans-serif;
+    font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;
+  }
+  nav ul a:hover{color:var(--accent);text-decoration:none;}
+
+  main{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  section{padding:56px 0 12px;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  h2{
+    font-size:1.05rem;text-transform:uppercase;letter-spacing:.14em;
+    color:var(--accent);font-family:-apple-system,Helvetica,Arial,sans-serif;
+    margin:0 0 22px;font-weight:700;
+  }
+
+  /* ---------- header ---------- */
+  header{padding-top:104px;}
+  .hero{display:flex;gap:36px;align-items:center;flex-wrap:wrap;}
+  .portrait{
+    width:150px;height:150px;border-radius:50%;flex:0 0 auto;
+    border:3px solid var(--accent);overflow:hidden;
+    background:var(--cream-2) url('assets/portrait.jpg') no-repeat center 22%;
+    background-size:80%;
+  }
+  .hero-text{flex:1;min-width:260px;}
+  .hero-text h1{margin:0 0 4px;font-size:2.15rem;letter-spacing:.3px;}
+  .hero-text .role{color:var(--accent);font-size:1.05rem;margin:0 0 4px;}
+  .hero-text .aff{color:var(--muted);font-size:.98rem;margin:0 0 14px;}
+  .links{display:flex;gap:10px;flex-wrap:wrap;font-family:-apple-system,Helvetica,Arial,sans-serif;}
+  .links a{
+    display:inline-block;font-size:.82rem;padding:6px 13px;
+    border:1px solid var(--accent);border-radius:20px;color:var(--accent);
+  }
+  .links a:hover{background:var(--accent);color:#fff;text-decoration:none;}
+
+  p{margin:0 0 16px;}
+  .lead{font-size:1.05rem;}
+
+  /* ---------- research grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .rcard{
+    background:var(--card);border:1px solid var(--line);border-top:3px solid var(--accent);border-radius:10px;
+    overflow:hidden;display:flex;flex-direction:column;
+  }
+  .rcard .thumb{
+    aspect-ratio:16/9;background:var(--cream-2);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--muted);font-family:-apple-system,Helvetica,Arial,sans-serif;
+    font-size:.78rem;text-align:center;padding:10px;border-bottom:1px solid var(--line);
+  }
+  .rcard .thumb img{width:100%;height:100%;object-fit:cover;}
+  .rcard .rbody{padding:16px 18px;}
+  .rcard h3{margin:0 0 6px;font-size:1.05rem;color:var(--ink);}
+  .rcard p{font-size:.92rem;color:var(--muted);margin:0;}
+
+  /* ---------- education / experience ---------- */
+  .row{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);}
+  .row:last-child{border-bottom:none;}
+  .logo{
+    width:56px;height:56px;flex:0 0 auto;border-radius:8px;
+    background:#fff;border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+    font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:.6rem;color:var(--muted);text-align:center;
+  }
+  .logo img{width:100%;height:100%;object-fit:contain;padding:6px;}
+  .row .meta{flex:1;}
+  .row .meta h3{margin:0 0 2px;font-size:1.06rem;}
+  .row .meta .sub{color:var(--accent-soft);font-size:.95rem;margin:0 0 3px;}
+  .row .meta .desc{color:var(--muted);font-size:.92rem;margin:0;}
+  .row .when{
+    flex:0 0 auto;color:var(--muted);font-size:.82rem;text-align:right;white-space:nowrap;
+    font-family:-apple-system,Helvetica,Arial,sans-serif;padding-top:2px;
+  }
+
+  /* ---------- publications ---------- */
+  .pub{padding:16px 0;border-bottom:1px solid var(--line);}
+  .pub:last-child{border-bottom:none;}
+  .pub .ptitle{font-size:1.05rem;margin:0 0 4px;}
+  .pub .authors{color:var(--muted);font-size:.92rem;margin:0 0 4px;}
+  .pub .authors .me{color:var(--ink);font-weight:bold;}
+  .pub .venue{font-style:italic;color:var(--accent-soft);font-size:.92rem;margin:0 0 8px;}
+  .pub .venue .yr{font-style:normal;color:var(--muted);}
+  .ptags{display:flex;gap:8px;flex-wrap:wrap;font-family:-apple-system,Helvetica,Arial,sans-serif;}
+  .ptags a{
+    font-size:.75rem;padding:3px 11px;border:1px solid var(--line);border-radius:16px;
+    color:var(--accent);background:var(--card);
+  }
+  .ptags a:hover{background:var(--accent);color:#fff;text-decoration:none;border-color:var(--accent);}
+  .badge{
+    display:inline-block;font-family:-apple-system,Helvetica,Arial,sans-serif;
+    font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;
+    background:var(--accent-wash);color:var(--accent);
+    padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle;
+  }
+  .badge.review{background:var(--cream-2);color:var(--muted);}
+
+  /* clickable logos + linked institution names */
+  a.logo{text-decoration:none;transition:border-color .15s;}
+  a.logo:hover{border-color:var(--accent);}
+  .row .meta h3 a{color:inherit;text-decoration:none;}
+  .row .meta h3 a:hover{color:var(--accent);}
+
+  /* ---------- topic filter ---------- */
+  .topics{
+    display:flex;flex-wrap:wrap;gap:7px;align-items:center;
+    background:var(--cream-2);border-left:3px solid var(--accent);
+    border-radius:0 6px 6px 0;padding:12px 16px;margin:0 0 24px;
+    font-family:-apple-system,Helvetica,Arial,sans-serif;
+  }
+  .topics .tlabel{color:var(--accent);font-weight:700;font-size:.8rem;letter-spacing:.04em;margin-right:4px;}
+  .topics .t{
+    font-size:.75rem;padding:2px 10px;border:1px solid var(--accent);border-radius:14px;
+    color:var(--accent);background:transparent;cursor:pointer;user-select:none;transition:all .15s;
+  }
+  .topics .t:hover{background:var(--accent-soft);color:#fff;border-color:var(--accent-soft);}
+  .topics .t.active{background:var(--accent);color:#fff;}
+  .topics .tclear{font-size:.72rem;color:var(--muted);cursor:pointer;margin-left:auto;text-decoration:underline;}
+  .topics .tclear:hover{color:var(--accent);}
+  .pub.hidden{display:none;}
+  .pubnum{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums;margin-right:8px;
+    font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:.9rem;}
+  .pub .topic-tags{margin-top:7px;display:flex;gap:6px;flex-wrap:wrap;font-family:-apple-system,Helvetica,Arial,sans-serif;}
+  .pub .topic-tags span{font-size:.67rem;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:1px 8px;}
+
+  /* ---------- software ---------- */
+  .swcard{
+    background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);
+    border-radius:8px;padding:18px 20px;margin-bottom:16px;
+  }
+  .swcard h3{margin:0 0 6px;font-size:1.1rem;}
+  .swcard p{font-size:.94rem;color:var(--muted);margin:0 0 10px;}
+
+  /* ---------- awards ---------- */
+  .awards-sub{font-size:1rem;color:var(--accent-soft);margin:24px 0 8px;font-weight:700;}
+  .awards-sub:first-of-type{margin-top:4px;}
+  .awards-list{list-style:none;padding:0;margin:0;}
+  .awards-list li{
+    display:flex;align-items:baseline;gap:14px;padding:8px 0;
+    border-bottom:1px solid var(--line);font-size:.95rem;color:var(--ink);
+  }
+  .awards-list li:last-child{border-bottom:none;}
+  .awards-list li::before{content:"✦";color:var(--accent);flex-shrink:0;}
+  .awards-list li .aw{flex:1;}
+  .awards-list li .ad{
+    color:var(--muted);font-size:.85rem;white-space:nowrap;flex-shrink:0;
+    font-variant-numeric:tabular-nums;font-family:-apple-system,Helvetica,Arial,sans-serif;
+  }
+
+  footer{
+    text-align:center;color:var(--muted);font-size:.82rem;
+    padding:40px 0 60px;border-top:1px solid var(--line);margin-top:40px;
+    font-family:-apple-system,Helvetica,Arial,sans-serif;
+  }
+
+  @media(max-width:680px){
+    .grid{grid-template-columns:1fr;}
+    nav .brand{display:none;}
+    nav .navwrap{justify-content:center;}
+    .hero{justify-content:center;text-align:center;}
+    .links{justify-content:center;}
+    .row .when{display:none;}
+    header{padding-top:120px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="navwrap">
+    <span class="brand">Xin Chen</span>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#awards">Awards</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#software">Software &amp; Data</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+  <header id="about">
+    <div class="hero">
+      <div class="portrait" role="img" aria-label="Xin Chen"></div>
+      <div class="hero-text">
+        <h1>Xin Chen</h1>
+        <p class="role">PhD Candidate · Electron Microscopy &amp; Machine Learning</p>
+        <p class="aff">Department of Materials Science &amp; Metallurgy, University of Cambridge</p>
+        <div class="links">
+          <a href="mailto:xc331@cam.ac.uk">Email</a>
+          <a href="https://scholar.google.com/citations?hl=en&amp;user=HiFRHNcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+          <a href="https://orcid.org/0009-0002-1607-0874" target="_blank" rel="noopener">ORCID</a>
+          <a href="https://github.com/CamXinChen" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="lead" style="margin-top:30px;">
+      I am a final-year PhD candidate at the University of Cambridge, working at the interface of
+      electron microscopy, optoelectronic semiconductors and machine learning. I develop
+      four-dimensional scanning transmission electron microscopy (4D-STEM) methods — including
+      in-situ and operando techniques — to reveal, at the nano- and atomic scale, chemical composition,
+      structure, strain and defects together with local electric fields, charge density and electrostatic
+      potential, linking these microscopic features to the macroscopic optoelectronic behaviour and
+      performance of working devices.
+    </p>
+    <p>
+      My research combines multimodal STEM (imaging, EDS, EELS and diffraction) with machine-learning
+      pipelines that make high-throughput characterisation tractable on large, high-dimensional 4D-STEM and spectral datasets.
+      I am supervised by Prof. Caterina Ducati, Prof. Paul Midgley FRS and Prof. Henning Sirringhaus FRS,
+      and work within the Cambridge Electron Microscopy Group and the Cavendish Laboratory Optoelectronics Group.
+    </p>
+  </header>
+
+  <section id="research">
+    <h2>Research</h2>
+    <div class="grid">
+
+      <div class="rcard">
+        <div class="rbody">
+          <h3>FIB-SEM nano-fabrication</h3>
+          <p>Optimise low-damage thinning processes for TEM lamellae of beam-sensitive materials.</p>
+        </div>
+      </div>
+
+      <div class="rcard">
+        <div class="rbody">
+          <h3>Multi-modal STEM</h3>
+          <p>Integrate imaging, EDS / EELS / SED analyses to study composition, chemical states and
+             structural distortion in perovskite optoelectronics — identifying causes of failure and
+             stabilisation strategies for devices.</p>
+        </div>
+      </div>
+
+      <div class="rcard">
+        <div class="rbody">
+          <h3>In-situ 4D-STEM</h3>
+          <p>Develop an in-situ chip-holder system and 4D-STEM–DPC techniques to study electrical
+             properties and charge-transport mechanisms in operando perovskite transistors.</p>
+        </div>
+      </div>
+
+      <div class="rcard">
+        <div class="rbody">
+          <h3>AI4S TEM analysis</h3>
+          <p>Develop machine-learning algorithms for rapid, high-throughput analysis of spectral and
+             diffraction datasets.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="education">
+    <h2>Education</h2>
+
+    <div class="row">
+      <a class="logo" href="https://www.cam.ac.uk/" target="_blank" rel="noopener"><img src="assets/university-logos/250px-Coat_of_Arms_of_the_University_of_Cambridge.png" alt="University of Cambridge"></a>
+      <div class="meta">
+        <h3><a href="https://www.cam.ac.uk/" target="_blank" rel="noopener">University of Cambridge</a></h3>
+        <p class="sub">PhD, Materials Science &amp; Metallurgy</p>
+        <p class="desc">Multimodal characterisation of perovskite optoelectronic devices via in-situ 4D-STEM.<br>
+           Supervisors: Prof. Caterina Ducati, Prof. Paul Midgley &amp; Prof. Henning Sirringhaus.</p>
+      </div>
+      <div class="when">2023 – 2027</div>
+    </div>
+
+    <div class="row">
+      <a class="logo" href="https://www.cam.ac.uk/" target="_blank" rel="noopener"><img src="assets/university-logos/250px-Coat_of_Arms_of_the_University_of_Cambridge.png" alt="University of Cambridge"></a>
+      <div class="meta">
+        <h3><a href="https://www.cam.ac.uk/" target="_blank" rel="noopener">University of Cambridge</a></h3>
+        <p class="sub">MPhil, Micro- &amp; Nanotechnology Enterprise <span class="badge">Distinction</span></p>
+        <p class="desc">III–V optoelectronics, Cambridge Gallium Nitride Centre. Supervisor: Prof. Rachel A. Oliver.</p>
+      </div>
+      <div class="when">2020 – 2021</div>
+    </div>
+
+    <div class="row">
+      <a class="logo" href="https://www.manchester.ac.uk/" target="_blank" rel="noopener"><img src="assets/university-logos/Manchester_logo_big.gif" alt="University of Manchester" style="transform:scale(1.5);"></a>
+      <div class="meta">
+        <h3><a href="https://www.manchester.ac.uk/" target="_blank" rel="noopener">University of Manchester</a></h3>
+        <p class="sub">BSc (Hons), Materials Science &amp; Engineering <span class="badge">First Class</span></p>
+        <p class="desc">Materials Science and Engineering.</p>
+      </div>
+      <div class="when">2018 – 2020</div>
+    </div>
+
+    <div class="row">
+      <a class="logo" href="https://en.csu.edu.cn/" target="_blank" rel="noopener"><img src="assets/university-logos/CSU_xiaohui.png" alt="Central South University"></a>
+      <div class="meta">
+        <h3><a href="https://en.csu.edu.cn/" target="_blank" rel="noopener">Central South University</a></h3>
+        <p class="sub">BEng, Powder Materials Science &amp; Engineering</p>
+        <p class="desc">Powder Metallurgy Research Institute (Top 15%).</p>
+      </div>
+      <div class="when">2016 – 2020</div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <h2>Experience</h2>
+
+    <div class="row">
+      <a class="logo" href="https://www.cam.ac.uk/" target="_blank" rel="noopener"><img src="assets/university-logos/250px-Coat_of_Arms_of_the_University_of_Cambridge.png" alt="University of Cambridge"></a>
+      <div class="meta">
+        <h3>SIGMA — machine-learning pipeline for 4D-STEM &amp; spectral data <span class="badge">Lead developer</span></h3>
+        <p class="sub">PhD Research · Electron Microscopy Group, University of Cambridge</p>
+        <p class="desc">Built a convolutional-VAE + Bayesian Gaussian-mixture pipeline (on py4DSTEM) compressing
+           65,536-dimensional diffraction patterns into 10–32 latent dimensions for phase and orientation
+           discovery across 10k–100k-pattern datasets; designed data-quality governance and a three-tier
+           evaluation stack, and re-engineered training for 2–10× throughput.</p>
+      </div>
+      <div class="when">2023 – Present</div>
+    </div>
+
+    <div class="row">
+      <a class="logo" href="https://www.cam.ac.uk/" target="_blank" rel="noopener"><img src="assets/university-logos/250px-Coat_of_Arms_of_the_University_of_Cambridge.png" alt="University of Cambridge"></a>
+      <div class="meta">
+        <h3>Operando 4D-STEM of perovskite transistors <span class="badge">Co-lead</span></h3>
+        <p class="sub">Electron Microscopy Group · Cavendish Laboratory, Cambridge</p>
+        <p class="desc">Operando 4D-STEM of perovskite FETs — in-situ biasing with CBED to resolve charge
+           transport and polaron–lattice coupling; batch analysis of ~36&nbsp;TB operando datasets; STEM-EELS
+           mapping of Sn oxidation states.</p>
+      </div>
+      <div class="when">2025 – 2026</div>
+    </div>
+
+    <div class="row">
+      <a class="logo" href="https://www.cam.ac.uk/" target="_blank" rel="noopener"><img src="assets/university-logos/250px-Coat_of_Arms_of_the_University_of_Cambridge.png" alt="University of Cambridge"></a>
+      <div class="meta">
+        <h3>Precession STEM strain mapping <span class="badge">Co-lead</span></h3>
+        <p class="sub">Department of Materials, Electron Microscopy Group, Cambridge</p>
+        <p class="desc">Precession-enhanced 4D-STEM of strain and defects in perovskite optoelectronics,
+           revealing strain-relaxation and defect-elimination mechanisms to guide crystal growth.</p>
+      </div>
+      <div class="when">2025 – 2026</div>
+    </div>
+
+    <div class="row">
+      <a class="logo" href="https://www.cam.ac.uk/" target="_blank" rel="noopener"><img src="assets/university-logos/250px-Coat_of_Arms_of_the_University_of_Cambridge.png" alt="University of Cambridge"></a>
+      <div class="meta">
+        <h3>Facet-specific molecular engineering of perovskite solar cells <span class="badge">Co-first author</span></h3>
+        <p class="sub">Electron Microscopy Group, Cambridge</p>
+        <p class="desc">Led STEM characterisation from project initiation through journal acceptance; first application
+           of SIGMA to 4D-STEM diffraction for phase and orientation indexing in beam-sensitive perovskite films;
+           multi-microscopy mechanism validation (HAADF, EDX, 4D-STEM).</p>
+      </div>
+      <div class="when">2024 – 2025</div>
+    </div>
+  </section>
+
+  <section id="awards">
+    <h2>Awards, Grants &amp; Talks</h2>
+
+    <h3 class="awards-sub">Invited Talks</h3>
+    <ul class="awards-list">
+      <li><span class="aw">IMC21 — 21st International Microscopy Congress, Liverpool</span><span class="ad">2026</span></li>
+      <li><span class="aw">MMC — Microscience Microscopy Congress, Manchester</span><span class="ad">2025</span></li>
+    </ul>
+
+    <h3 class="awards-sub">Research Grants</h3>
+    <ul class="awards-list">
+      <li><span class="aw">Diamond Light Source ePSIC funded research proposals</span><span class="ad">2025 &amp; 2026</span></li>
+      <li><span class="aw">Cambridge QAMS Strategic Research Fund</span><span class="ad">2024</span></li>
+      <li><span class="aw">Henry Royce @ Cambridge External Funds</span><span class="ad">2023</span></li>
+    </ul>
+
+    <h3 class="awards-sub">Scholarships &amp; Prizes</h3>
+    <ul class="awards-list">
+      <li><span class="aw">Christ's College Bottomley Postgraduate Fund</span><span class="ad">2025</span></li>
+      <li><span class="aw">Christ's College Kornberg Memorial Fund</span><span class="ad">2023</span></li>
+      <li><span class="aw">Girton College Sir Arthur Arnold Prize &amp; Ida Freund Scholarship</span><span class="ad">2020</span></li>
+    </ul>
+  </section>
+
+  <section id="publications">
+    <h2>Publications</h2>
+
+    <div class="topics" id="topicFilter">
+      <span class="tlabel">Filter by topic</span>
+      <span class="t" data-topic="perovskites">Perovskites</span>
+      <span class="t" data-topic="solar">Solar Cells</span>
+      <span class="t" data-topic="4dstem">4D-STEM</span>
+      <span class="t" data-topic="ml">Machine Learning</span>
+      <span class="t" data-topic="ferro">Ferroelectrics</span>
+      <span class="t" data-topic="spin">Spintronics</span>
+      <span class="t" data-topic="mof">2D &amp; MOFs</span>
+      <span class="t" data-topic="strain">Strain &amp; Defects</span>
+      <span class="t" data-topic="transport">Charge Transport</span>
+      <span class="tclear" id="topicClear">clear</span>
+    </div>
+
+    <div class="pub" data-topics="ferro">
+      <p class="ptitle"><span class="pubnum">[9]</span>Electrocaloric effects across room temperature in multilayer capacitors</p>
+      <p class="authors">M. Guo, V. Farenkov, <span class="me">X. Chen</span>, A. Mohanathan, A. Z. K. Goh,
+         Y. Tang, J. Zhang, M. Vickers, S. M. Fairclough, C. Ducati <em>et al.</em></p>
+      <p class="venue">Nature <span class="yr">· 2026</span></p>
+      <div class="ptags">
+        <a href="https://doi.org/10.1038/s41586-026-10492-w" target="_blank" rel="noopener">Paper (DOI)</a>
+      </div>
+      <div class="topic-tags"><span>Ferroelectrics</span></div>
+    </div>
+
+    <div class="pub" data-topics="perovskites solar 4dstem">
+      <p class="ptitle"><span class="pubnum">[8]</span>Stabilizing perovskite solar cells via facet-selective molecular engineering</p>
+      <p class="authors">Yi Pan, <span class="me">Xin Chen</span>, Zeyu Zhang, Zeping Ou, Ke Zhao, Bo Zhang,
+         Kun Chen, N. A. N. Ouedraogo, Zhenhuang Su, Bingchen He <em>et al.</em>
+         <span class="badge">Co-first author</span></p>
+      <p class="venue">Joule <span class="yr">· 2026</span></p>
+      <div class="ptags">
+        <a href="https://doi.org/10.1016/j.joule.2025.102315" target="_blank" rel="noopener">Paper (DOI)</a>
+      </div>
+      <div class="topic-tags"><span>Perovskites</span><span>Solar Cells</span><span>4D-STEM</span></div>
+    </div>
+
+    <div class="pub" data-topics="mof transport">
+      <p class="ptitle"><span class="pubnum">[7]</span>Charge transport and carrier polarity tuning by electrolyte gating in nickel benzenehexathiol coordination nanosheets</p>
+      <p class="authors">Tian Wu, Xinglong Ren, Zhengkang Qu, Ian E. Jacobs, Lu Zhang, Naoya Fukui,
+         <span class="me">Xin Chen</span>, Hiroshi Nishihara, Henning Sirringhaus</p>
+      <p class="venue">Advanced Materials <span class="yr">· 2025</span></p>
+      <div class="ptags">
+        <a href="https://doi.org/10.1002/adma.202500164" target="_blank" rel="noopener">Paper (DOI)</a>
+      </div>
+      <div class="topic-tags"><span>2D &amp; MOFs</span><span>Charge Transport</span></div>
+    </div>
+
+    <div class="pub" data-topics="spin">
+      <p class="ptitle"><span class="pubnum">[6]</span>Ultra-high spin emission from antiferromagnetic FeRh</p>
+      <p class="authors">D. Hamara, M. Strungaru, J. R. Massey, Q. Remy, <span class="me">Xin Chen</span>,
+         G. Nava Antonio, O. Alves Santos, M. Hehn, R. F. L. Evans, R. W. Chantrell <em>et al.</em></p>
+      <p class="venue">Nature Communications <span class="yr">· 2024</span></p>
+      <div class="ptags">
+        <a href="https://doi.org/10.1038/s41467-024-48795-z" target="_blank" rel="noopener">Paper (DOI)</a>
+      </div>
+      <div class="topic-tags"><span>Spintronics</span></div>
+    </div>
+
+    <div class="pub" data-topics="perovskites solar strain">
+      <p class="ptitle"><span class="pubnum">[5]</span>Relieving residual stress through regulated annealing for efficient and stable perovskite solar cells</p>
+      <p class="authors">Yi Pan, <span class="me">Xin Chen</span> <em>et al.</em>
+         <span class="badge">Co-first author</span></p>
+      <p class="venue"><span class="badge review">Under Review</span></p>
+      <div class="topic-tags"><span>Perovskites</span><span>Solar Cells</span><span>Strain &amp; Defects</span></div>
+    </div>
+
+    <div class="pub" data-topics="ml 4dstem ferro perovskites">
+      <p class="ptitle"><span class="pubnum">[4]</span>SIGMA-enabled 4D-STEM structural–electric correlation in ferroelectric halide perovskites</p>
+      <p class="authors"><span class="me">Xin Chen</span>, C. Ho, S. Pecorario <em>et al.</em>
+         <span class="badge">First author</span></p>
+      <p class="venue"><span class="badge review">Under Review</span></p>
+      <div class="topic-tags"><span>Machine Learning</span><span>4D-STEM</span><span>Ferroelectrics</span><span>Perovskites</span></div>
+    </div>
+
+    <div class="pub" data-topics="perovskites solar">
+      <p class="ptitle"><span class="pubnum">[3]</span>Cooperative thermal crystallization enables interfacial homogenization in antisolvent- and HTL-free Sn–Pb perovskite solar cells</p>
+      <p class="authors">Y. Li, W. Zhu, <span class="me">Xin Chen</span> <em>et al.</em></p>
+      <p class="venue"><span class="badge review">Under Review</span></p>
+      <div class="topic-tags"><span>Perovskites</span><span>Solar Cells</span></div>
+    </div>
+
+    <div class="pub" data-topics="mof transport">
+      <p class="ptitle"><span class="pubnum">[2]</span>Tunable metal–insulator transition in electrolyte-gated coordination nanosheets</p>
+      <p class="authors">Tian Wu, <span class="me">Xin Chen</span> <em>et al.</em></p>
+      <p class="venue"><span class="badge review">Under Review</span></p>
+      <div class="topic-tags"><span>2D &amp; MOFs</span><span>Charge Transport</span></div>
+    </div>
+
+    <div class="pub" data-topics="mof">
+      <p class="ptitle"><span class="pubnum">[1]</span>Highly conductive porous MOFs enabled by controlled interfacial oxidation</p>
+      <p class="authors">J. Li, H. Un, <span class="me">Xin Chen</span> <em>et al.</em></p>
+      <p class="venue"><span class="badge review">Under Review</span></p>
+      <div class="topic-tags"><span>2D &amp; MOFs</span></div>
+    </div>
+
+    <p style="font-size:.86rem;color:var(--muted);margin-top:18px;">
+      Full and up-to-date list on
+      <a href="https://scholar.google.com/citations?hl=en&amp;user=HiFRHNcAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.
+    </p>
+  </section>
+
+  <section id="software">
+    <h2>Software &amp; Data</h2>
+
+    <div class="swcard">
+      <h3>SIGMA — ML pipeline for scientific data analysis</h3>
+      <p>Lead developer. A deep-learning pipeline for automated, high-throughput curation, clustering and
+         evaluation of large spectral and diffraction datasets. Built on <strong>py4DSTEM</strong>, it
+         compresses high-dimensional diffraction patterns into a small number of meaningful latent
+         dimensions for phase and orientation discovery across 10k–100k-pattern datasets, with a
+         convolutional-VAE and Bayesian Gaussian-mixture backbone.</p>
+      <div class="ptags">
+        <a href="https://github.com/CamXinChen" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <div class="swcard">
+      <h3>Open-source contributions</h3>
+      <p>Contributor to <strong>py4DSTEM</strong> and <strong>HyperSpy</strong> — open-source Python
+         libraries for 4D-STEM and multidimensional data analysis in electron microscopy.</p>
+      <div class="ptags">
+        <a href="https://github.com/CamXinChen" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="yr"></span> Xin Chen · University of Cambridge ·
+    <a href="mailto:xc331@cam.ac.uk">xc331@cam.ac.uk</a>
+  </footer>
+
+</main>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  // active-section highlight in nav
+  const links = [...document.querySelectorAll('nav ul a')];
+  const map = {};
+  links.forEach(l => map[l.getAttribute('href').slice(1)] = l);
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => {
+      if(e.isIntersecting){
+        links.forEach(l => l.style.color = '');
+        if(map[e.target.id]) map[e.target.id].style.color = 'var(--accent)';
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('section, header').forEach(s => obs.observe(s));
+
+  // publication topic filter (multi-select OR)
+  const tBtns = [...document.querySelectorAll('#topicFilter .t')];
+  const pubs  = [...document.querySelectorAll('.pub')];
+  const active = new Set();
+  function applyFilter(){
+    tBtns.forEach(b => b.classList.toggle('active', active.has(b.dataset.topic)));
+    pubs.forEach(p => {
+      const tp = (p.dataset.topics || '').split(' ');
+      const show = active.size === 0 || [...active].some(a => tp.includes(a));
+      p.classList.toggle('hidden', !show);
+    });
+  }
+  tBtns.forEach(b => b.addEventListener('click', () => {
+    const t = b.dataset.topic;
+    active.has(t) ? active.delete(t) : active.add(t);
+    applyFilter();
+  }));
+  const clr = document.getElementById('topicClear');
+  if(clr) clr.addEventListener('click', () => { active.clear(); applyFilter(); });
+</script>
+
+</body>
+</html>
