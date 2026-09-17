@@ -33,6 +33,7 @@ Supervised by Prof. Caterina Ducati, Prof. Paul Midgley FRS and Prof. Henning Si
 
 - M. Guo, V. Farenkov, **X. Chen**, *et al.* "Electrocaloric effects across room temperature in multilayer capacitors." **Nature** (2026). [DOI](https://doi.org/10.1038/s41586-026-10492-w)
 - Yi Pan, **Xin Chen** (co-first), *et al.* "Stabilizing perovskite solar cells via facet-selective molecular engineering." **Joule** (2026). [DOI](https://doi.org/10.1016/j.joule.2025.102315)
+- Y.-S. Li, W.-X. Zhu, **Xin Chen**, Y. Dong, C. Ducati, T. J. Macdonald, C.-T. Lin, *et al.* "Cooperative thermal crystallization enables interfacial homogenization in antisolvent- and HTL-free Sn–Pb perovskite solar cells." **Materials Science and Engineering: R: Reports** (2026). [DOI](https://doi.org/10.1016/j.mser.2026.101283)
 - T. Wu, X. Ren, Z. Qu, I. E. Jacobs, L. Zhang, N. Fukui, **Xin Chen**, H. Nishihara, H. Sirringhaus. "Charge transport and carrier polarity tuning by electrolyte gating in nickel benzenehexathiol coordination nanosheets." **Advanced Materials** (2025). [DOI](https://doi.org/10.1002/adma.202500164)
 - D. Hamara, *et al.*, **Xin Chen**, *et al.* "Ultra-high spin emission from antiferromagnetic FeRh." **Nature Communications** (2024). [DOI](https://doi.org/10.1038/s41467-024-48795-z)
 
